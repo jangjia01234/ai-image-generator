@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
 import "./App.css";
-import dotenv from "dotenv";
-dotenv.config();
 
 const App = () => {
   const [prompt, setPrompt] = useState("");
