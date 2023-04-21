@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
 import "./App.css";
+import dotenv from "dotenv";
+dotenv.config();
 
 const App = () => {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
 
   const configuration = new Configuration({
-    apiKey: import.meta.env.VITE_OPEN_AI_KEY,
+    apiKey: process.env.VITE_OPEN_AI_KEY,
   });
   const openai = new OpenAIApi(configuration);
 
