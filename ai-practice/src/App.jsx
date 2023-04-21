@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
 import "./App.css";
@@ -7,18 +8,30 @@ const App = () => {
   const [result, setResult] = useState("");
 
   const configuration = new Configuration({
-    apiKey: process.env.VITE_OPEN_AI_KEY,
+    apiKey: import.meta.env.VITE_OPEN_AI_KEY,
   });
+
   const openai = new OpenAIApi(configuration);
 
   const generateImage = async () => {
-    const res = await openai.createImage({
-      prompt: prompt,
-      n: 1,
-      size: "1024x1024",
-    });
+    try {
+      const res = await openai.createImage(
+        {
+          prompt: prompt,
+          n: 1,
+          size: "1024x1024",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_OPEN_AI_KEY}`,
+          },
+        }
+      );
 
-    setResult(res.data.data[0].url);
+      setResult(res.data.data[0].url);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -33,7 +46,6 @@ const App = () => {
           }}
         />
         <button onClick={generateImage}>Generate an image</button>
-
         <img src={result} alt="generatedImg" />
       </div>
     </>
